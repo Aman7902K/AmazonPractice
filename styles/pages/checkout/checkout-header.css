@@ -22,6 +22,7 @@
   align-items: center;
 }
 
+
 .checkout-header-left-section {
   width: 150px;
 }
@@ -72,6 +73,7 @@
   font-size: 23px;
   text-decoration: none;
   cursor: pointer;
+  padding-top: 3px;
 }
 
 @media (max-width: 1000px) {

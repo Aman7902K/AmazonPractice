@@ -1,6 +1,7 @@
-import { cart,removeItem } from "../data/cart.js";
+import { cart,removeItem,saveToStorage,update_cart_quantity } from "../data/cart.js";
 import { items } from "../data/products.js";
-
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+import { options } from "../data/deliveryOptions.js";
 
 let checkoutHTML="";
 
@@ -14,7 +15,6 @@ cart.forEach((cartItem)=>{
             matchingItem = item
         }
     })    
-
     
     checkoutHTML+=
 
@@ -38,16 +38,17 @@ cart.forEach((cartItem)=>{
             <div class="product-quantity">
                 <span>
                 Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                </span>                    
+                <span class="update-quantity-link link-primary" data-product-id="${matchingItem.id}">
+                    Update
                 </span>
-                <span class="update-quantity-link link-primary">
-                Update
-                </span>
+                <input type="text" id=fname-${matchingItem.id} name="fname">
+                <span class="save_quantity link-primary" >Save</span>
                 <span class="delete-quantity-link link-primary delete_btn" data-product-Id="${matchingItem.id}">
                 Delete
                 </span>
             </div>
             </div>
-
             <div class="delivery-options">
             <div class="delivery-options-title">
                 Choose a delivery option:
@@ -103,7 +104,28 @@ cart.forEach((cartItem)=>{
             let productID = links.dataset.productId
             removeItem(productID)          
             document.querySelector(`.js-item-unique-${productID}`).remove()
+            saveToStorage()
         })
     })
 
+    let update = document.querySelectorAll(".update-quantity-link")
+
+    let save = document.querySelector(`#fname-$${matchingItem.id}`)
+
+    update.forEach((link)=>{
+        link.addEventListener("click",()=>{
+            link.style.display = 'none'     
+            save.style.display = 'initial'   
+        })
+    })
 })
+
+document.querySelector(".return-to-home-link").innerHTML = update_cart_quantity()
+
+
+
+
+
+
+
+
